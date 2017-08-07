@@ -1,0 +1,29 @@
+{
+    "name":"gca-js",
+    "description":"JS rewrite of gca-node",
+    "version":"0.1.0",
+    "main": "gca.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/yonicstudios/gca-js.git"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+    },
+    "dependencies":{
+        "node-usb":"./node-usb"
+    },
+    "keywords": [
+      "gamecube",
+      "wiiu",
+      "controller",
+      "adapter",
+      "gamedev"
+    ],
+    "author": "YonicStudios",
+    "license": "GPL-3.0",
+    "bugs": {
+      "url": "https://github.com/yonicstudios/gca-js/issues"
+    },
+    "homepage": "https://github.com/yonicstudios/gca-js#readme"
+}
