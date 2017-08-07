@@ -52,8 +52,8 @@ Since gca-js is written entirely in JavaScript, it doesn't directly rely on othe
 3. `gca-js` becomes asynchronous and doesn't require an extra thread to be executed.
 
 ## FAQ
-  * **Will gca-js support rumble?**
-     * Yes, in version 1.0.
+  * **Does gca-js support rumble?**
+     * Yes.
   * **Does gca-js support third party GameCube Controllers?**
      * Yes, although partially. The extra functionalities (i.e. turbo mode, extra buttons) will most likely be not supported due to the Wii U adapter's specifications.
   * **Will gca-js support third party GameCube USB Adapters?**
