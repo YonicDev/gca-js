@@ -3,18 +3,6 @@ var usb = require('usb');
 var ENDPOINT_IN = 0x81
 var ENDPOINT_OUT = 0x02
 
-function createArray(length) {
-    var arr = new Array(length || 0),
-        i = length;
-
-    if (arguments.length > 1) {
-        var args = Array.prototype.slice.call(arguments, 1);
-        while(i--) arr[length-1 - i] = createArray.apply(this, args);
-    }
-
-    return arr;
-}
-
 function showListAdapters() {
     usbList = usb.getDeviceList();
     list = []
@@ -64,14 +52,60 @@ function readData(adapter,callback) {
     })
 }
 
+function pollData(adapter,callback) {
+    var iface = adapter.interface(0);
+    var endpoint = iface.endpoint(ENDPOINT_IN);
+    endpoint.startPoll(1,37);
+    endpoint.on('data',function (data){
+        callback(data);
+        return;
+    })
+}
+
 function rawData(data) {
-    var dataArray = [];
-    for(var i=0;i<27;i++) {
-        dataArray[i]='';
+    var arr = [];
+    var results = data.slice(1);
+    for(var i=0;i<36;i++) {
+        arr[i]='';
         for(var j=0;j<8;j++) {
-            dataArray[i]+=(data[2]>>i)&1;
+            arr[i] += (results[i]>>j) & 1;
         }
     }
-    console.log(dataArray);
+    return arr;
 }
-module.exports = {readData,startAdapter,showListAdapters,rawData};
+
+function objectData(data) {
+    var arr = rawData(data);
+    var status = [];
+    for(var port=0;port<4;port++) {
+        status[port] = {
+            'port': port+1,
+            'connected': 1 == arr[0+9*port][4],
+            'buttons': {
+                'buttonA': 1 == arr[1+9*port][0],
+                'buttonB': 1 == arr[1+9*port][1],
+                'buttonX': 1 == arr[1+9*port][2],
+                'buttonY': 1 == arr[1+9*port][3],
+                'padUp': 1 ==  arr[1+9*port][7],
+                'padDown': 1 == arr[1+9*port][6],
+                'padLeft': 1 == arr[1+9*port][4],
+                'padRight': 1 == arr[1+9*port][5],
+                'buttonStart': 1 == arr[2+9*port][0],
+                'buttonZ': 1 == arr[2+9*port][1],
+                'buttonL': 1 == arr[2+9*port][3],
+                'buttonR': 1 == arr[2+9*port][2]
+            },
+            'axes': {
+                'mainStickHorizontal': (data[4+9*port]/128)-1,
+                'mainStickVertical': (data[5+9*port]/128)-1,
+                'cStickHorizontal': (data[6+9*port]/128)-1,
+                'cStickVertical': (data[7+9*port]/128)-1,
+                'triggerL': (data[8+9*port]/128)-1,
+                'triggerR': (data[9+9*port]/128)-1
+            }
+        }
+    }
+
+    return status;
+}
+module.exports = {readData,pollData,startAdapter,showListAdapters,rawData,objectData};
