@@ -1,0 +1,4 @@
+[submodule "node-usb"]
+	path = node-usb
+	url = git@github.com:tessel/node-usb.git
+	branch = master
