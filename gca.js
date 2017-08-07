@@ -1,16 +1,16 @@
 var usb = require('usb');
 
-var ENDPOINT_IN = 0x81
-var ENDPOINT_OUT = 0x02
+var ENDPOINT_IN = 0x81;
+var ENDPOINT_OUT = 0x02;
 
-function showListAdapters() {
+function getAdaptersList() {
     usbList = usb.getDeviceList();
     list = []
     for (var i=0;i<usbList.length;i++) {
         if(usbList[i].deviceDescriptor.idVendor === 1406 && usbList[i].deviceDescriptor.idProduct === 823)
             list.push(usbList[i]);
     }
-    return list
+    return list;
 }
 
 function startAdapter(adapter) {
@@ -102,10 +102,29 @@ function objectData(data) {
                 'cStickVertical': (data[7+9*port]/128)-1,
                 'triggerL': (data[8+9*port]/128)-1,
                 'triggerR': (data[9+9*port]/128)-1
-            }
+            },
+            'rumble': false
         }
     }
 
     return status;
 }
-module.exports = {readData,pollData,startAdapter,showListAdapters,rawData,objectData};
+
+function checkRumble(adapter,controllers) {
+    var iface = adapter.interface(0);
+    var endpoint = iface.endpoint(ENDPOINT_OUT);
+    var data = [0x11];
+
+    for(var port=0;port<4;port++) {
+        data[port+1] = controllers[port].rumble;
+    }
+
+    endpoint.transfer(data,function(e) {
+        if(e) {
+            console.error(e);
+        }
+        return;
+    })
+}
+
+module.exports = {readData,pollData,startAdapter,getAdaptersList,rawData,objectData,checkRumble};
