@@ -1,12 +1,14 @@
 ![gca-node logo][logo]
 
+[![Build Status](https://travis-ci.org/yonicstudios/gca-js.svg?branch=master)](https://travis-ci.org/yonicstudios/gca-js) [![Build Status](https://ci.appveyor.com/api/projects/status/6oocja2ekd47a3pp?svg=true)](https://ci.appveyor.com/project/yonicstudios/gca-js)
+
 gca-js is a redesign of the [gca-node addon][1] which adds Nintendo&reg; Wii U GameCube&trade; Adapter native asynchronous support for NodeJS applications.
 The entirety of gca-js API is written in JavaScript, removing the disadvantages of using gca-node, written in C++.
 
 ## Usage
 
 ### Installation
-With NodeJS installed into your system, input this into the command line window while at your NodeJS project folder:
+With NodeJS installed into your system (either stable or latest), input this into the command line window while at your NodeJS project folder:
 
     npm install gca-js
 
@@ -62,8 +64,8 @@ Since gca-js is written entirely in JavaScript, it doesn't directly rely on othe
      * No. Unfortunately, the specifications of the adapter make it incompatible with the GBA Link. Even if it were to be compatible, remotely interfacing with the Game Boy Advance is currently impossible.
   * **Is gca-js cross-platform?**
      * Yes. It supports Windows 7+, most Linux distributions, and Mac OS 10.8+, although each one have different configurations.
-  * **Will gca-js be available for 32-bit platforms?**
-     * Not as of now. This is because some of the dependencies don't currently build for x86 or ARM architectures.
+  * **Does gca-js support 32-bit platforms?**
+     * Yes, it supports x86 architectures.
   * **Why does gca-js use node-usb instead of node-hid?**
      * On Windows, when replacing the HID driver to the generic WinUSB one, the operating system will no longer recognize the adapter as an HID device, making it useless to be used on node-hid.
   * **[Windows] Why is it necessary to use just Zadig? Can't I just use [ElMassivo's USB GameCube Adapter][3] instead?**
