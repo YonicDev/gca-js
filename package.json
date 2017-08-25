@@ -4,7 +4,7 @@
   "main": "gca.js",
   "description": "JS rewrite of gca-node",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 0"
   },
   "repository": {
     "type": "git",
