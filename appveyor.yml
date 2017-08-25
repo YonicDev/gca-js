@@ -27,4 +27,8 @@ test_script:
   - node --version
   - npm --version
 
+branches:
+  only:
+      - cross-platform
+
 build: off
