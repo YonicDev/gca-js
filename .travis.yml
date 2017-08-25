@@ -2,10 +2,10 @@ language: node_js
 node_js:
   - "7"
   - "6"
-before_script:
+before_install:
+    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install libusb-dev; fi
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install libusb-dev; fi
-    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo 'SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTRS{idVendor}=="057e", ATTRS{idProduct}=="0337", MODE="0666"' > /etc/udev/rules.d/51-gcadapter.rules
 matrix:
   include:
     - os: linux
