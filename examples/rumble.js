@@ -13,18 +13,18 @@ gca.startAdapter(adapter);
 // a response has been received.
 gca.pollData(adapter,function(data) {
     // Get the status of all controllers
-    var controllers = test.objectData(data);
+    var controllers = gca.objectData(data);
 
     for(var i=0;i<4;i++) {
         // Set the rumble status of a controller to true if the A button
         // is pressed on that controller.
         controllers[i].rumble=controllers[i].buttons.buttonA;
-        console.log("Controller "+(i+1)+"'s' rumble:" + controllers[i].rumble);
+        console.log("Controller "+(i+1)+"'s rumble:" + controllers[i].rumble);
     }
     console.log("\n");
 
     // Send a rumble command to the adapter. If true, the controller's motor
     // will activate. If false, the controller's motor will stop.
-    test.checkRumble(adapters[0],controllers);
+    gca.checkRumble(adapter,controllers);
     return;
 })
