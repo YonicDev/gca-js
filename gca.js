@@ -127,4 +127,21 @@ function checkRumble(adapter,controllers) {
     })
 }
 
-module.exports = {readData,pollData,startAdapter,getAdaptersList,rawData,objectData,checkRumble};
+function stopAdapter(adapter) {
+    var iface = adapter.interface(0);
+    var endpoint = iface.endpoint(ENDPOINT_OUT);
+    
+    endpoint.transfer([0x14],function(e) {
+       if(e) {
+          console.error(e);
+       } else {
+          iface.release([ENDPOINT_IN,ENDPOINT_OUT],function(e) {
+              if(e) console.error(e);
+          });
+          adapter.close();
+       }
+       return;
+    })
+}
+
+module.exports = {readData,pollData,startAdapter,getAdaptersList,rawData,objectData,checkRumble,stopAdapter};

@@ -1,6 +1,8 @@
 // This sample allows you to make any controller plugged into the adapter
 // rumble by pressing the A button.
 
+process.stdin.resume();//so the program will not close instantly
+
 var gca = require('../gca.js');
 
 // Get the first detected GameCube adapter.
@@ -28,3 +30,11 @@ gca.pollData(adapter,function(data) {
     gca.checkRumble(adapter,controllers);
     return;
 })
+
+function exitExample(options, err) {
+    if(options.cleanup) gca.stopAdapter(adapter);
+    if(err) console.error(err.stack);
+    if(options.exit) process.exit();
+}
+
+process.on('SIGINT', exitExample.bind(null, {exit:true,cleanup:true}));
