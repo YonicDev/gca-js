@@ -1,6 +1,6 @@
 {
   "name": "gca-js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "gca.js",
   "description": "JS rewrite of gca-node",
   "scripts": {
@@ -18,7 +18,7 @@
     "gamedev"
   ],
   "dependencies": {
-    "usb": "git+https://github.com/tessel/node-usb.git#1.3.0"
+    "usb": "^1.3.1"
   },
   "author": "YonicStudios",
   "license": "GPL-3.0",
