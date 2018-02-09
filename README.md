@@ -1,6 +1,6 @@
 ![gca-node logo][logo]
 
-[![Build Status](https://travis-ci.org/yonicstudios/gca-js.svg?branch=master)](https://travis-ci.org/yonicstudios/gca-js) [![Build Status](https://ci.appveyor.com/api/projects/status/6oocja2ekd47a3pp?svg=true)](https://ci.appveyor.com/project/yonicstudios/gca-js)
+[![Build Status](https://travis-ci.org/YonicDev/gca-js.svg?branch=master)](https://travis-ci.org/YonicDev/gca-js) [![Build Status](https://ci.appveyor.com/api/projects/status/6oocja2ekd47a3pp?svg=true)](https://ci.appveyor.com/project/yonicstudios/gca-js)
 
 gca-js is a redesign of the now deprecated [gca-node addon][1] which adds Nintendo&reg; Wii U GameCube&trade; Adapter native asynchronous and synchronous support for Node.js applications.
 The entirety of gca-js API is written in JavaScript, removing the disadvantages of using gca-node, written in C++.
