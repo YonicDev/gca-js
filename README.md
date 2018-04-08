@@ -20,17 +20,28 @@ In gca-js 1.2.0, developers will be able to automatize this process of configura
 #### Windows
 Windows will fail to recognize the HID-like driver built in the kernel of the Adapter, so it must be replaced with a generic WinUSB driver.
 
-Developers can use [gca-wincfg](https://github.com/YonicDev/gca-wincfg) to make an automatic driver installer within their game, but it's only supported for 64-bit versions of Windows. From 1.2.0, gca-wincfg is an optional dependency of gca-js.
+Developers can use [gca-wincfg](https://github.com/YonicDev/gca-wincfg) to make an automatic driver installer within their game, but it's only supported for 64-bit versions of Windows.
+
+> **NOTE:** From 1.2.0, gca-wincfg is an optional dependency of gca-js that is installed on Windows systems.
 
 Gamers and consumers can run the sample script file within gca-wincfg with node to simply install it automatically, or use [Zadig](http://zadig.akeo.ie/downloads/zadig-2.3.exe) if they are running on a 32-bit Windows.
 
 When using Zadig, select Options > List all devices. On the dropdown menu, select WUP-028. Finally, replace the built-in HidUsb driver with the WinUSB driver.
 
+Additionally, the native dependencies have to be recompiled to be used in [Electron](https://github.com/electron/electron) or [Nw.js](https://github.com/nwjs/nw.js), as some of them will download prebuilt binaries not meant to be used in either of these runtimes, and will fail to load on Windows.
+
+* **[Electron]:** Run [electron-rebuild](https://github.com/electron/electron-rebuild) with no arguments at your NodeJS project folder. If using `electron-prebuilt`, you must specify the version that matches the apm version that your prebuilt Electron uses.
+* **[Nw.js]:** Use [nw-gyp](https://github.com/nwjs/nw-gyp), a fork of node-gyp, inside the [node-usb](https://github.com/tessel/node-usb) module folder.
+
+> **NOTE:** gca-js 1.2.0 will detect if using Electron and rebuild the dependencies automatically. Further updates will be able to do the same with Nw.js.
+
 #### Linux
 udev will only give access to the adapter to the root user until a udev rule is applied.
-1. Copy the `51-gcadapter.rules` file from the repository to the `/etc/udev/rules.d` directory. If there is a file with another number on the directory, change it to an unused number.
+1. Copy the `51-gcadapter.rules` file from the repository to the `/etc/udev/rules.d` directory.
 2. Reload udev rules with the command `sudo udevadm control --reload-rules`.
 3. Plug out and reinsert the adapter.
+
+> **NOTE:** gca-js 1.2.0 will prompt an administrator access popup in order to perform these operations automatically.
 
 #### mac OS
 All HID devices (which includes the adapter) are intercepted by IOKit's HID driver. The adapter, not being designed for usage on computers, will not provide a valid report descriptor and IOKit will fail to communicate with the adapter. In order to solve this, a kext can be used for IOKit to ignore the adapter and permit a low-level communication.
@@ -51,21 +62,6 @@ It stores the accesible API into a variable so that you can call any of the avai
 
 ## API
 The gca-js API is an *asynchronous* revision of the API used in [gca+][2], but it follows almost the same model as gca-node API version 2.0. The full API is included on the wiki.
-
-## Main feautres
-Since gca-js is written entirely in JavaScript, it doesn't directly rely on other sources like DLLs, and instead uses other NodeJS modules. This removes certain problems with gca-node, namely:
-
-1. `node-gyp` isn't called at any time, making it much easier to install across platforms.
-2. No more restraints from using `apm`. This means that gca-js is compatible with applications such as `electron`.
-3. `gca-js` becomes asynchronous and doesn't require an extra thread to be executed.
-
-## Issues
-Major and critical issues with their workarounds will be posted here. The full list is at the Issues section.
-
-### Windows fails to load the module in graphical applications
-This seems to be an issue regarding how Node.js deals with the FFI protocols on Windows, so unfortunately it's an issue outside of gca-js.
-
-However, a websocket can be used as a workaround for this issue.
 
 ## FAQ
   * **Does gca-js work with USB GameCube Controllers?**
