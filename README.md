@@ -15,14 +15,14 @@ With Node.js installed into your system (either stable or latest), input this in
 ### Configuration
 When you plug the Nintendo&reg; Wii U GameCube&trade; Adapter  in your computer, it will not be able to be used unless you configure your operating system to provide access to the Adapter.
 
-In gca-js 1.2.0, developers will be able to automatize this process of configuration for consumer use.
+In gca-js 2.0.0, this will be heavily revamped, and developers will be able to automatize this process of configuration for consumer use.
 
 #### Windows
 Windows will fail to recognize the HID-like driver built in the kernel of the Adapter, so it must be replaced with a generic WinUSB driver.
 
 Developers can use [gca-wincfg](https://github.com/YonicDev/gca-wincfg) to make an automatic driver installer within their game, but it's only supported for 64-bit versions of Windows.
 
-> **NOTE:** From 1.2.0, gca-wincfg is an optional dependency of gca-js that is installed on Windows systems.
+> **NOTE:** From 2.0.0, gca-wincfg is an optional dependency of gca-js that is installed on Windows systems.
 
 Gamers and consumers can run the sample script file within gca-wincfg with node to simply install it automatically, or use [Zadig](http://zadig.akeo.ie/downloads/zadig-2.3.exe) if they are running on a 32-bit Windows.
 
@@ -33,24 +33,24 @@ Additionally, the native dependencies have to be recompiled to be used in [Elect
 * **[Electron]:** Run [electron-rebuild](https://github.com/electron/electron-rebuild) with no arguments at your NodeJS project folder. If using `electron-prebuilt`, you must specify the version that matches the apm version that your prebuilt Electron uses.
 * **[Nw.js]:** Use [nw-gyp](https://github.com/nwjs/nw-gyp), a fork of node-gyp, inside the [node-usb](https://github.com/tessel/node-usb) module folder.
 
-> **NOTE:** gca-js 1.2.0 will detect if using Electron and rebuild the dependencies automatically. Further updates will be able to do the same with Nw.js.
-
 #### Linux
 udev will only give access to the adapter to the root user until a udev rule is applied.
 1. Copy the `51-gcadapter.rules` file from the repository to the `/etc/udev/rules.d` directory.
 2. Reload udev rules with the command `sudo udevadm control --reload-rules`.
 3. Plug out and reinsert the adapter.
 
-> **NOTE:** gca-js 1.2.0 will prompt an administrator access popup in order to perform these operations automatically.
+> **NOTE:** gca-js 2.0.0 will prompt an administrator access popup in order to perform these operations automatically.
 
 #### mac OS
-All HID devices (which includes the adapter) are intercepted by IOKit's HID driver. The adapter, not being designed for usage on computers, will not provide a valid report descriptor and IOKit will fail to communicate with the adapter. In order to solve this, a kext can be used for IOKit to ignore the adapter and permit a low-level communication.
+All HID devices (which includes the adapter) are intercepted by IOKit's HID driver. The adapter, not being designed for usage on computers, will not provide a valid report descriptor and IOKit will fail to communicate with the adapter.
 
-This can be easily done with the SmashEnabler kernel extension, which can be installed from here:
-* **[OS X El Capitan and newer](https://forums.dolphin-emu.org/attachment.php?aid=16638)**
-* **[Prior to OS X El Capitan](https://forums.dolphin-emu.org/attachment.php?aid=16637)**
+Since May 2021, this can be easily solved with [secretkey's GC Adapter Driver](https://secretkeys.io/gcadapterdriver/) for versions of mac OS High Sierra (10.13) and newer, and is heavily recommended to install this new driver and remove the older ones.
 
-> **WARNING:** gca-js does not support OS X El Capitan and newer versions. The current version of the kext is unsigned and will not load on these versions. You may bypass it by disabling SIP, but this *will put your system at risk*. [More details about disabling SIP here](https://forums.dolphin-emu.org/Thread-os-x-gcn-adapter-kext-testers-wanted?pid=387495#pid387495).
+There are two versions of that driver: A signed kext for versions 10.13 to 10.15, and an app that uses DriverKit instead of IOKit for versions 11 and newer. If you are using the app version, the app that runs the driver has to be running for the adapter to work. You can add it to the Login Item list so that it runs on startup.
+
+The "overclocking" feature of this driver is supported, but discouraged.
+
+> **WARNING:** kexts for older versions (e.g. SmashEnabler) of OS X exist. However, they are unsigned and will not load from OS X El Capitan (10.11) or newer. You may bypass it by disabling SIP, but this *will put your system at risk*. [More details about disabling SIP here](https://forums.dolphin-emu.org/Thread-os-x-gcn-adapter-kext-testers-wanted?pid=387495#pid387495).
 
 
 ### Code usage
@@ -73,9 +73,9 @@ The gca-js API is an *asynchronous* revision of the API used in [gca+][2], but i
   * **Will gca-js support third party GameCube USB Adapters?**
      * Soon we'll experiment with Mayflash's USB adapters.
   * **Will gca-js support connection with Game Boy Advance with GBA Link?**
-     * No.
+     * No, since the Wii U adapter itself does not support connectivity with a Game Boy Advance.
   * **Is gca-js cross-platform?**
-     * Yes. It supports Windows 7+, most Linux distributions, and Mac OS before El Capitan (10.11), although each operating system has different configurations.
+     * Yes. It supports Windows 7+, most Linux distributions, and Mac OS 10.13 (High Sierra) or newer, although each operating system has different configurations.
   * **Does gca-js support 32-bit platforms?**
      * Yes, it supports x86 architectures on all supported platforms.
   * **Why does gca-js use node-usb instead of node-hid?**
