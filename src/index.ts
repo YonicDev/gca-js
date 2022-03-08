@@ -1,6 +1,6 @@
 import { webusb } from "usb"
 
-interface ControllerStatus {
+export interface ControllerStatus {
     port: number,
     connected: boolean,
     buttons: {
