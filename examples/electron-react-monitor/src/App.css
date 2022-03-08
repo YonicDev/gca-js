@@ -1,0 +1,62 @@
+.controller-chooser {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.controller-chooser > * {
+  margin: 0 10px;
+}
+
+.controller-display {
+  position: relative;
+}
+
+.not-connected-alert {
+  position: absolute;
+  font-size: 5em;
+  z-index: 2;
+  color: red;
+  width: 100vw;
+  top: 50%;
+  text-align: center;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.triggers-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+  padding: 10px 0;
+  position: relative;
+  top: 20px;
+  z-index: 1;
+}
+
+.trigger-box {
+  display: inline-flex;
+  width: 45%;
+  height: 16pt;
+  border: 1px solid black;
+}
+
+.trigger-button {
+  background-color: red;
+  width: 20px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.trigger-axis {
+  height: 100%;
+  flex-grow: 1;
+}
+
+.trigger-bar {
+  height: 100%;
+  background-color: #007535;
+}
