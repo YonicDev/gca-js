@@ -4,7 +4,7 @@ const { ipcRenderer } = require('electron')
 document.addEventListener("DOMContentLoaded", async () => {
     // Get the first detected GameCube adapter.
     try {
-        const adapter = await gca.getAdapter();
+        const adapter = (await gca.getAdaptersList())[0];
         let rumble = [false, false, false, false];
 
         // Start communication with the adapter.

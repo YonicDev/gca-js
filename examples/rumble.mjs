@@ -8,7 +8,7 @@ process.stdin.resume();
 
 async function main() {
     // Get the first detected GameCube adapter.
-    const adapter = await gca.getAdapter();
+    const adapter = (await gca.getAdaptersList())[0];
     const rumble = [false, false, false, false];
 
     function exitExample(options, err) {

@@ -1,4 +1,4 @@
-import { webusb } from "usb"
+import { WebUSB } from "usb"
 
 /**
  * The interface struct used for the controller status 
@@ -43,12 +43,13 @@ export interface ControllerStatus {
 const ENDPOINTS = { IN: 0x81, OUT: 0x02 }
 
 /**
- * Gets the first detected Nintendo&reg; Wii U GameCube&trade; Adapter 
- * that is connected in your computer.
- * @returns The first detected adapter
+ * Gets all the Nintendo&reg; Wii U/Switch USB GameCube&trade; Adapters
+ * that are connected in your computer.
+ * @returns An array with all the detected adapters
  */
-export async function getAdapter() { 
-    return await webusb.requestDevice({ filters: [{ vendorId: 1406, productId: 823 }] });
+export async function getAdaptersList() { 
+    const webusb = new WebUSB({allowAllDevices: true});
+    return (await webusb.getDevices()).filter(dev => dev.vendorId === 1406 && dev.productId === 823);
 }
 
 /**
